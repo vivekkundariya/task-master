@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { Header } from './components/Header';
 import { FocusOfTheDay } from './components/FocusOfTheDay';
 import { TaskBacklog } from './components/TaskBacklog';
 import { Footer } from './components/Footer';
-import { AddTaskDialog } from './components/AddTaskDialog';
-import { FloatingAddButton } from './components/FloatingAddButton';
+import { AddTaskSheet } from './components/AddTaskDialog';
+
 
 export interface Task {
   id: string;
@@ -66,8 +65,6 @@ export default function App() {
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="min-h-screen bg-gray-50">
-        <Header />
-        
         <main className="container mx-auto px-4 py-8 pb-24 space-y-8">
           <div className="flex justify-between items-center">
             <h1 className="text-2xl font-semibold text-gray-900">Todo Master</h1>
@@ -78,6 +75,7 @@ export default function App() {
             onToggleTask={toggleTask} 
             onDeleteTask={deleteTask}
             onMoveTask={moveTask}
+            onAddTask={addTask}
           />
           
           <TaskBacklog 
@@ -85,15 +83,13 @@ export default function App() {
             onToggleTask={toggleTask} 
             onDeleteTask={deleteTask}
             onMoveTask={moveTask}
+            onAddTask={addTask}
           />
         </main>
 
         <Footer />
 
-        {/* Floating Action Button */}
-        <FloatingAddButton onClick={() => setIsAddTaskOpen(true)} />
-
-        <AddTaskDialog 
+        <AddTaskSheet 
           open={isAddTaskOpen}
           onOpenChange={setIsAddTaskOpen}
           onAddTask={addTask}

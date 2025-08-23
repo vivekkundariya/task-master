@@ -1,15 +1,18 @@
 import React from 'react';
 import { DroppableQuadrant } from './DroppableQuadrant';
 import { Task } from '../App';
+import { Button } from './ui/button';
+import { Plus } from 'lucide-react';
 
 interface FocusOfTheDayProps {
   tasks: Task[];
   onToggleTask: (id: string) => void;
   onDeleteTask: (id: string) => void;
   onMoveTask: (id: string, quadrant: Task['quadrant']) => void;
+  onAddTask: (text: string, quadrant?: Task['quadrant']) => void;
 }
 
-export function FocusOfTheDay({ tasks, onToggleTask, onDeleteTask, onMoveTask }: FocusOfTheDayProps) {
+export function FocusOfTheDay({ tasks, onToggleTask, onDeleteTask, onMoveTask, onAddTask }: FocusOfTheDayProps) {
   const getTasksByQuadrant = (quadrant: Task['quadrant']) => {
     return tasks.filter(task => task.quadrant === quadrant);
   };
@@ -58,6 +61,7 @@ export function FocusOfTheDay({ tasks, onToggleTask, onDeleteTask, onMoveTask }:
             onToggleTask={onToggleTask}
             onDeleteTask={onDeleteTask}
             onMoveTask={onMoveTask}
+            onAddTask={onAddTask}
           />
         ))}
       </div>
