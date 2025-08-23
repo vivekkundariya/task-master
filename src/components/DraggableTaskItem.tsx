@@ -6,12 +6,9 @@ import { Task } from '../App';
 interface DraggableTaskItemProps {
   task: Task;
   onToggle: (id: string) => void;
-  onDelete: (id: string) => void;
-  onMove: (id: string, quadrant: Task['quadrant']) => void;
-  showMoveOptions?: boolean;
 }
 
-export function DraggableTaskItem({ task, onToggle, onDelete, onMove, showMoveOptions = false }: DraggableTaskItemProps) {
+export function DraggableTaskItem({ task, onToggle }: DraggableTaskItemProps) {
   const [{ isDragging }, drag] = useDrag({
     type: 'task',
     item: { id: task.id, task },
@@ -29,9 +26,6 @@ export function DraggableTaskItem({ task, onToggle, onDelete, onMove, showMoveOp
       <TaskItem
         task={task}
         onToggle={onToggle}
-        onDelete={onDelete}
-        onMove={onMove}
-        showMoveOptions={showMoveOptions}
       />
     </div>
   );
