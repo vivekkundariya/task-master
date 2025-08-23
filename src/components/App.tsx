@@ -169,7 +169,7 @@ const App = () => {
             >
               Ideas Brewing, Ready to Prioritize!
             </p>
-            <div className="hidden md:block">
+            <div className="hidden md:block" style={{ color: QUADRANT_COLORS[QUADRANTS.BACKLOG].textColor }}>
               <CircularProgress
                 completed={getCompletedTasksCount(QUADRANTS.BACKLOG)}
                 total={getTotalTasksCount(QUADRANTS.BACKLOG)}
@@ -181,7 +181,7 @@ const App = () => {
                 }
               />
             </div>
-            <div className="block md:hidden">
+            <div className="block md:hidden" style={{ color: QUADRANT_COLORS[QUADRANTS.BACKLOG].textColor }}>
               <CircularProgress
                 completed={getCompletedTasksCount(QUADRANTS.BACKLOG)}
                 total={getTotalTasksCount(QUADRANTS.BACKLOG)}
