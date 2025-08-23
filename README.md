@@ -15,7 +15,7 @@ A modern, responsive task management application built with React, TypeScript, a
 
 ## 🚀 Live Demo
 
-[View the live application here](https://your-username.github.io/task-master/)
+[View the live application here](https://vivekkundariya.github.io/task-master/)
 
 ## 🛠️ Tech Stack
 
@@ -29,7 +29,7 @@ A modern, responsive task management application built with React, TypeScript, a
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/task-master.git
+   git clone https://github.com/vivekkundariya/task-master.git
    cd task-master
    ```
 
@@ -67,7 +67,7 @@ A modern, responsive task management application built with React, TypeScript, a
 
 3. **The GitHub Action will automatically deploy your site**
    - Every push to the `main` branch triggers a deployment
-   - Your site will be available at `https://your-username.github.io/task-master/`
+   - Your site will be available at `https://vivekkundariya.github.io/task-master/`
 
 ### Manual Deployment
 
