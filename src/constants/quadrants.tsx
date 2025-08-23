@@ -1,0 +1,73 @@
+import {
+  Zap,
+  CalendarCheck,
+  UserCheck,
+  Trash2,
+  ListTodo,
+} from 'lucide-react';
+
+export const QUADRANTS = {
+  URGENT_IMPORTANT: 'urgentImportant',
+  NOT_URGENT_IMPORTANT: 'notUrgentImportant',
+  URGENT_NOT_IMPORTANT: 'urgentNotImportant',
+  NOT_URGENT_NOT_IMPORTANT: 'notUrgentNotImportant',
+  BACKLOG: 'backlog',
+};
+
+export const QUADRANT_COLORS = {
+  [QUADRANTS.URGENT_IMPORTANT]: {
+    bgColor: 'bg-[#fce2e2]',
+    textColor: 'text-[#c92437]',
+    borderColor: 'border-[#c92437]',
+    progressColorClass: 'text-[#c92437]',
+    optionBgColor: 'bg-[#f8d0d0]',
+    optionHoverBg: 'hover:bg-[#f5c0c0]',
+    iconColorClass: 'text-[#c92437]',
+    icon: <Zap className="h-5 w-5 mr-2 text-[#c92437]" />,
+    completedBgColor: 'bg-[#f7d1d1]',
+  },
+  [QUADRANTS.NOT_URGENT_IMPORTANT]: {
+    bgColor: 'bg-[#f3e7ff]',
+    textColor: 'text-[#8a46c1]',
+    borderColor: 'border-[#8a46c1]',
+    progressColorClass: 'text-[#8a46c1]',
+    optionBgColor: 'bg-[#e8d6f9]',
+    optionHoverBg: 'hover:bg-[#dfc4f5]',
+    iconColorClass: 'text-[#8a46c1]',
+    icon: <CalendarCheck className="h-5 w-5 mr-2 text-[#8a46c1]" />,
+    completedBgColor: 'bg-[#e9d6f5]',
+  },
+  [QUADRANTS.URGENT_NOT_IMPORTANT]: {
+    bgColor: 'bg-[#fef9c2]',
+    textColor: 'text-[#884b00]',
+    borderColor: 'border-[#884b00]',
+    progressColorClass: 'text-[#884b00]',
+    optionBgColor: 'bg-[#fcf5b0]',
+    optionHoverBg: 'hover:bg-[#f9f09e]',
+    iconColorClass: 'text-[#884b00]',
+    icon: <UserCheck className="h-5 w-5 mr-2 text-[#884b00]" />,
+    completedBgColor: 'bg-[#f5eeb0]',
+  },
+  [QUADRANTS.NOT_URGENT_NOT_IMPORTANT]: {
+    bgColor: 'bg-[#cefafe]',
+    textColor: 'text-[#1c5f78]',
+    borderColor: 'border-[#1c5f78]',
+    progressColorClass: 'text-[#1c5f78]',
+    optionBgColor: 'bg-[#b0f7fc]',
+    optionHoverBg: 'hover:bg-[#90f4fa]',
+    iconColorClass: 'text-[#1c5f78]',
+    icon: <Trash2 className="h-5 w-5 mr-2 text-[#1c5f78]" />,
+    completedBgColor: 'bg-[#b0f5fc]',
+  },
+  [QUADRANTS.BACKLOG]: {
+    bgColor: 'bg-[#f8faff]',
+    textColor: 'text-[#6a7282]',
+    borderColor: 'border-[#6a7282]',
+    progressColorClass: 'text-[#6a7282]',
+    optionBgColor: 'bg-[#eef0f5]',
+    optionHoverBg: 'hover:bg-[#e0e3e8]',
+    iconColorClass: 'text-[#6a7282]',
+    icon: <ListTodo className="h-5 w-5 mr-2 text-[#6a7282]" />,
+    completedBgColor: 'bg-[#eef0f5]',
+  },
+};
