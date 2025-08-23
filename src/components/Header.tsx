@@ -33,7 +33,7 @@ const Header = ({
 
   return (
     <>
-      <div className="flex justify-between items-center mb-8 px-4 py-2">
+      <div className="flex justify-between items-center mb-1 px-2 py-0">
         <div className="flex flex-col">
           <div className="flex items-center">
             <span className="text-xl font-semibold text-gray-600 dark:text-gray-300 mr-2">
@@ -62,7 +62,7 @@ const Header = ({
               </h2>
             )}
           </div>
-          <p className="text-md text-gray-500 dark:text-gray-400 mt-1">
+          <p className="text-md text-gray-500 dark:text-gray-400 mt-0">
             Your day, your priorities, perfectly managed.
           </p>
         </div>
@@ -88,10 +88,9 @@ const Header = ({
         </div>
       </div>
 
-      {/* Main Eisenhower Matrix Header */}
-      <h1 className="text-4xl font-extrabold text-gray-900 dark:text-gray-100 mb-6 flex items-center justify-center">
-        <Sun className="h-8 w-8 text-yellow-500 mr-3" />
-        Eisenhower Matrix
+      {/* Main Today's Top Priorities Header */}
+      <h1 className="text-2xl font-extrabold text-gray-900 dark:text-gray-100 mb-2 flex items-center justify-center">
+        🎯 Today's Top Priorities 🎯
       </h1>
     </>
   );

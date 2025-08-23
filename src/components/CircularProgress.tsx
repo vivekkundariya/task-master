@@ -37,13 +37,13 @@ const CircularProgress = ({
           cy={viewboxSize / 2}
         />
         <circle
-          className="text-gray-200 dark:text-gray-700"
           strokeWidth={strokeWidth}
-          stroke="currentColor"
+          stroke={ "#aeb2b9" }
           fill="transparent"
           r={radius}
           cx={viewboxSize / 2}
           cy={viewboxSize / 2}
+          style={{ opacity: 0.5 }}
         />
         <circle
           className={`${progressColorClass} transition-all duration-700 ease-out`}
@@ -61,8 +61,11 @@ const CircularProgress = ({
       </svg>
       <div className="absolute inset-0 flex items-center justify-center">
         <span
-          className={`${textSize} font-semibold text-gray-700 dark:text-gray-300 leading-none`}
-          style={{ fontSize: `${Math.max(8, size * 0.3)}px` }}
+          className={`${textSize} font-semibold leading-none`}
+          style={{ 
+            fontSize: `${Math.max(8, size * 0.3)}px`,
+            color: 'inherit'
+          }}
         >
           {completed}/{total}
         </span>

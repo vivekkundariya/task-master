@@ -63,7 +63,7 @@ const App = () => {
           handleDownloadCSV={handleDownloadCSV}
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 h-[70vh]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
           <QuadrantDisplay
             title="Urgent & Important"
             subtitle="Act Now, Conquer Fast!"
@@ -149,7 +149,7 @@ const App = () => {
         <div
           className={`${QUADRANT_COLORS[QUADRANTS.BACKLOG].bgColor} ${
             QUADRANT_COLORS[QUADRANTS.BACKLOG].borderColor
-          } rounded-sm shadow-lg border mt-8 p-4`}
+          } rounded-sm shadow-lg border mt-6 md:mt-8 p-3 md:p-4`}
         >
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 border-b pb-2 dark:border-gray-700">
             <div className="flex items-center">
@@ -169,16 +169,30 @@ const App = () => {
             >
               Ideas Brewing, Ready to Prioritize!
             </p>
-            <CircularProgress
-              completed={getCompletedTasksCount(QUADRANTS.BACKLOG)}
-              total={getTotalTasksCount(QUADRANTS.BACKLOG)}
-              size={48}
-              strokeWidth={3}
-              textSize="text-sm"
-              progressColorClass={
-                QUADRANT_COLORS[QUADRANTS.BACKLOG].progressColorClass
-              }
-            />
+            <div className="hidden md:block" style={{ color: QUADRANT_COLORS[QUADRANTS.BACKLOG].textColor }}>
+              <CircularProgress
+                completed={getCompletedTasksCount(QUADRANTS.BACKLOG)}
+                total={getTotalTasksCount(QUADRANTS.BACKLOG)}
+                size={48}
+                strokeWidth={3}
+                textSize="text-sm"
+                progressColorClass={
+                  QUADRANT_COLORS[QUADRANTS.BACKLOG].progressColorClass
+                }
+              />
+            </div>
+            <div className="block md:hidden" style={{ color: QUADRANT_COLORS[QUADRANTS.BACKLOG].textColor }}>
+              <CircularProgress
+                completed={getCompletedTasksCount(QUADRANTS.BACKLOG)}
+                total={getTotalTasksCount(QUADRANTS.BACKLOG)}
+                size={32}
+                strokeWidth={2}
+                textSize="text-xs"
+                progressColorClass={
+                  QUADRANT_COLORS[QUADRANTS.BACKLOG].progressColorClass
+                }
+              />
+            </div>
           </div>
 
           <div className="relative flex items-stretch mb-2 shadow-sm rounded-sm border border-gray-300 dark:border-gray-600 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-transparent">

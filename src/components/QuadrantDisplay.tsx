@@ -69,7 +69,7 @@ const QuadrantDisplay = ({
 
   return (
     <div
-      className={`${bgColor} ${borderColor} rounded-sm shadow-sm border p-4 flex flex-col h-full overflow-visible`}
+      className={`${bgColor} ${borderColor} rounded-sm shadow-sm border p-3 md:p-4 flex flex-col min-h-[300px] md:h-full overflow-visible`}
       onDragOver={(e) => onDragOver(e, title)}
       onDrop={(e) => onDrop(e, title)}
     >
@@ -79,14 +79,26 @@ const QuadrantDisplay = ({
             {icon}
             <h3 className={`text-xl font-bold ${textColor}`}>{title}</h3>
           </div>
-          <CircularProgress
-            completed={completedTasksCount}
-            total={totalTasksCount}
-            size={48}
-            strokeWidth={3}
-            textSize="text-sm"
-            progressColorClass={progressColorClass}
-          />
+          <div className="hidden md:block" style={{ color: textColor }}>
+            <CircularProgress
+              completed={completedTasksCount}
+              total={totalTasksCount}
+              size={48}
+              strokeWidth={3}
+              textSize="text-sm"
+              progressColorClass={progressColorClass}
+            />
+          </div>
+          <div className="block md:hidden" style={{ color: textColor }}>
+            <CircularProgress
+              completed={completedTasksCount}
+              total={totalTasksCount}
+              size={32}
+              strokeWidth={2}
+              textSize="text-xs"
+              progressColorClass={progressColorClass}
+            />
+          </div>
         </div>
         <p className={`text-sm ${textColor} opacity-80 mt-0`}>{subtitle}</p>
       </div>
