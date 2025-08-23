@@ -79,7 +79,7 @@ const QuadrantDisplay = ({
             {icon}
             <h3 className={`text-xl font-bold ${textColor}`}>{title}</h3>
           </div>
-          <div className="hidden md:block">
+          <div className="hidden md:block" style={{ color: textColor }}>
             <CircularProgress
               completed={completedTasksCount}
               total={totalTasksCount}
@@ -89,7 +89,7 @@ const QuadrantDisplay = ({
               progressColorClass={progressColorClass}
             />
           </div>
-          <div className="block md:hidden">
+          <div className="block md:hidden" style={{ color: textColor }}>
             <CircularProgress
               completed={completedTasksCount}
               total={totalTasksCount}
