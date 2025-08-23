@@ -88,10 +88,9 @@ const Header = ({
         </div>
       </div>
 
-      {/* Main Eisenhower Matrix Header */}
+      {/* Main Today's Top Priorities Header */}
       <h1 className="text-4xl font-extrabold text-gray-900 dark:text-gray-100 mb-6 flex items-center justify-center">
-        <Sun className="h-8 w-8 text-yellow-500 mr-3" />
-        Eisenhower Matrix
+        🎯 Today's Top Priorities 🎯
       </h1>
     </>
   );
