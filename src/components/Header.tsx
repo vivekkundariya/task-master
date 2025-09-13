@@ -1,4 +1,6 @@
-import { Edit, Sun, Moon, FileDown } from 'lucide-react';
+import { useState } from 'react';
+import { Edit, Sun, Moon, FileDown, FileUp } from 'lucide-react';
+import ImportModal from './ImportModal';
 
 interface HeaderProps {
   userName: string;
@@ -11,6 +13,8 @@ interface HeaderProps {
   toggleTheme: () => void;
   theme: string;
   handleDownloadCSV: () => void;
+  handleImportCSV: (file: File) => Promise<{ success: boolean; message: string; importedCount?: number }>;
+  handleImportText: (csvText: string) => Promise<{ success: boolean; message: string; importedCount?: number }>;
 }
 
 const Header = ({
@@ -24,7 +28,11 @@ const Header = ({
   toggleTheme,
   theme,
   handleDownloadCSV,
+  handleImportCSV,
+  handleImportText,
 }: HeaderProps) => {
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+  
   const currentTime = new Date().toLocaleTimeString('en-US', {
     hour: '2-digit',
     minute: '2-digit',
@@ -79,6 +87,13 @@ const Header = ({
             )}
           </button>
           <button
+            onClick={() => setIsImportModalOpen(true)}
+            className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 transition-colors duration-200"
+            aria-label="Import tasks from CSV"
+          >
+            <FileUp className="h-5 w-5 text-gray-600 dark:text-gray-300" />
+          </button>
+          <button
             onClick={handleDownloadCSV}
             className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 transition-colors duration-200"
             aria-label="Download tasks as CSV"
@@ -92,6 +107,15 @@ const Header = ({
       <h1 className="text-2xl font-extrabold text-gray-900 dark:text-gray-100 mb-2 flex items-center justify-center">
         🎯 Today's Top Priorities 🎯
       </h1>
+
+      {/* Import Modal */}
+      <ImportModal
+        isOpen={isImportModalOpen}
+        onClose={() => setIsImportModalOpen(false)}
+        onImportCSV={handleImportCSV}
+        onImportText={handleImportText}
+        theme={theme}
+      />
     </>
   );
 };

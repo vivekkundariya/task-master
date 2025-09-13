@@ -308,6 +308,209 @@ export const useTasks = () => {
     }
   };
 
+  const parseCSVContent = (csvContent: string, skipHeader: boolean = false): { success: boolean; message: string; importedCount?: number; tasks?: Task[] } => {
+    try {
+      const lines = csvContent.split('\n').filter(line => line.trim() !== '');
+      
+      if (lines.length < 1) {
+        return { success: false, message: 'CSV content must contain at least one data row.' };
+      }
+
+      let startIndex = 0;
+      let taskIndex = 0;
+      let completedIndex = 1;
+      let quadrantIndex = 2;
+
+      if (!skipHeader) {
+        // Parse header row
+        const headers = lines[0].split(',').map(header => header.trim().replace(/"/g, ''));
+        const expectedHeaders = ['Task', 'Completed', 'Quadrant'];
+        
+        // Check if headers match expected format
+        const headersMatch = expectedHeaders.every(expectedHeader => 
+          headers.includes(expectedHeader)
+        );
+        
+        if (!headersMatch) {
+          return { 
+            success: false, 
+            message: `CSV headers must match: ${expectedHeaders.join(', ')}. Found: ${headers.join(', ')}` 
+          };
+        }
+
+        // Get column indices
+        taskIndex = headers.indexOf('Task');
+        completedIndex = headers.indexOf('Completed');
+        quadrantIndex = headers.indexOf('Quadrant');
+        startIndex = 1;
+      }
+
+      // Parse data rows
+      const importedTasks: Task[] = [];
+      const validQuadrants = Object.values(QUADRANTS);
+      
+      for (let i = startIndex; i < lines.length; i++) {
+        const line = lines[i];
+        const columns = parseCSVLine(line);
+        
+        if (columns.length < 3) {
+          continue; // Skip invalid rows (we only need 3 columns now)
+        }
+
+        const text = columns[taskIndex]?.replace(/"/g, '').trim() || '';
+        const completed = columns[completedIndex]?.trim().toLowerCase() === 'true';
+        let quadrant = columns[quadrantIndex]?.replace(/"/g, '').trim() || '';
+
+        // Validate required fields (only text is required now)
+        if (!text) {
+          continue; // Skip invalid rows
+        }
+
+        // Default to backlog if quadrant is empty or invalid
+        if (!quadrant || !validQuadrants.includes(quadrant)) {
+          quadrant = QUADRANTS.BACKLOG;
+        }
+
+        // Generate new unique ID and timestamp for each imported task
+        const newId = crypto.randomUUID();
+        const createdAt = new Date().toISOString();
+
+        const task: Task = {
+          id: newId,
+          text,
+          completed,
+          quadrant,
+          createdAt,
+          editingText: text,
+        };
+
+        importedTasks.push(task);
+      }
+
+      if (importedTasks.length === 0) {
+        return { success: false, message: 'No valid tasks found in the CSV content.' };
+      }
+
+      return { 
+        success: true, 
+        message: `Successfully parsed ${importedTasks.length} tasks.`,
+        importedCount: importedTasks.length,
+        tasks: importedTasks
+      };
+
+    } catch (error) {
+      return { 
+        success: false, 
+        message: `Error parsing CSV content: ${error instanceof Error ? error.message : 'Unknown error'}` 
+      };
+    }
+  };
+
+  const handleImportCSV = (file: File): Promise<{ success: boolean; message: string; importedCount?: number }> => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      
+      reader.onload = (e) => {
+        const csvContent = e.target?.result as string;
+        const result = parseCSVContent(csvContent);
+        
+        if (result.success && result.tasks) {
+          // Merge with existing tasks (no need to check for duplicates since we generate new IDs)
+          setTasks((prevTasks) => {
+            const mergedTasks = [...prevTasks, ...result.tasks!];
+            
+            // Sort tasks
+            mergedTasks.sort((a, b) => {
+              if (a.completed && !b.completed) return 1;
+              if (!a.completed && b.completed) return -1;
+              const dateA = new Date(a.createdAt).getTime();
+              const dateB = new Date(b.createdAt).getTime();
+              return dateA - dateB;
+            });
+            
+            return mergedTasks;
+          });
+
+          resolve({ 
+            success: true, 
+            message: `Successfully imported ${result.importedCount} tasks.`,
+            importedCount: result.importedCount
+          });
+        } else {
+          resolve({ success: false, message: result.message });
+        }
+      };
+
+      reader.onerror = () => {
+        resolve({ success: false, message: 'Error reading the file.' });
+      };
+
+      reader.readAsText(file);
+    });
+  };
+
+  const handleImportText = (csvText: string, skipHeader: boolean = true): Promise<{ success: boolean; message: string; importedCount?: number }> => {
+    return new Promise((resolve) => {
+      const result = parseCSVContent(csvText, skipHeader);
+      
+      if (result.success && result.tasks) {
+        // Merge with existing tasks (no need to check for duplicates since we generate new IDs)
+        setTasks((prevTasks) => {
+          const mergedTasks = [...prevTasks, ...result.tasks!];
+          
+          // Sort tasks
+          mergedTasks.sort((a, b) => {
+            if (a.completed && !b.completed) return 1;
+            if (!a.completed && b.completed) return -1;
+            const dateA = new Date(a.createdAt).getTime();
+            const dateB = new Date(b.createdAt).getTime();
+            return dateA - dateB;
+          });
+          
+          return mergedTasks;
+        });
+
+        resolve({ 
+          success: true, 
+          message: `Successfully imported ${result.importedCount} tasks.`,
+          importedCount: result.importedCount
+        });
+      } else {
+        resolve({ success: false, message: result.message });
+      }
+    });
+  };
+
+  // Helper function to parse CSV line handling quoted fields
+  const parseCSVLine = (line: string): string[] => {
+    const result: string[] = [];
+    let current = '';
+    let inQuotes = false;
+    
+    for (let i = 0; i < line.length; i++) {
+      const char = line[i];
+      
+      if (char === '"') {
+        if (inQuotes && line[i + 1] === '"') {
+          // Escaped quote
+          current += '"';
+          i++; // Skip next quote
+        } else {
+          // Toggle quote state
+          inQuotes = !inQuotes;
+        }
+      } else if (char === ',' && !inQuotes) {
+        result.push(current);
+        current = '';
+      } else {
+        current += char;
+      }
+    }
+    
+    result.push(current);
+    return result;
+  };
+
   return {
     tasks,
     editingTaskId,
@@ -343,5 +546,7 @@ export const useTasks = () => {
     handleNameKeyPress,
     toggleTheme,
     handleDownloadCSV,
+    handleImportCSV,
+    handleImportText,
   };
 };

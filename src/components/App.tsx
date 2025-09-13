@@ -31,6 +31,8 @@ const App = () => {
     handleNameKeyPress,
     toggleTheme,
     handleDownloadCSV,
+    handleImportCSV,
+    handleImportText,
     setEditingTaskText,
   } = useTasks();
 
@@ -61,6 +63,8 @@ const App = () => {
           toggleTheme={toggleTheme}
           theme={theme}
           handleDownloadCSV={handleDownloadCSV}
+          handleImportCSV={handleImportCSV}
+          handleImportText={handleImportText}
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
